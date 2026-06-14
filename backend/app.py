@@ -18,7 +18,8 @@ app.add_middleware(
     allow_credentials=False,
 )
 
-FRONTEND_DIR = r"D:\Smart Inventory Forecaster\inventory-forecaster\frontend"
+import pathlib
+FRONTEND_DIR = str(pathlib.Path(__file__).resolve().parent.parent / "frontend")
 
 class ForecastRequest(BaseModel):
     product: str
