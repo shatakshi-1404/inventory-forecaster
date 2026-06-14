@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import pandas as pd
 import traceback
+import pathlib
 
 from data_generator import generate_sales_data, get_all_products, INDIAN_EVENTS
 from forecaster import run_arima, run_prophet, run_lstm
@@ -18,8 +19,7 @@ app.add_middleware(
     allow_credentials=False,
 )
 
-import pathlib
-FRONTEND_DIR = str(pathlib.Path(__file__).resolve().parent.parent / "frontend")
+FRONTEND_DIR = pathlib.Path(__file__).resolve().parent.parent / "frontend"
 
 class ForecastRequest(BaseModel):
     product: str
@@ -30,15 +30,15 @@ class ForecastRequest(BaseModel):
 # ── Frontend routes ────────────────────────────────────────────
 @app.get("/")
 def root():
-    return FileResponse(FRONTEND_DIR + r"\index.html")
+    return FileResponse(str(FRONTEND_DIR / "index.html"))
 
 @app.get("/styles.css")
 def styles():
-    return FileResponse(FRONTEND_DIR + r"\styles.css")
+    return FileResponse(str(FRONTEND_DIR / "styles.css"))
 
 @app.get("/app.js")
 def appjs():
-    return FileResponse(FRONTEND_DIR + r"\app.js")
+    return FileResponse(str(FRONTEND_DIR / "app.js"))
 
 # ── API routes ─────────────────────────────────────────────────
 @app.get("/api/health")
