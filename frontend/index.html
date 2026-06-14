@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Inventory Forecaster</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <a class="topbar-logo" href="#">
+      <div class="logo-icon">📦</div>
+      SmartStock
+    </a>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-sub">Inventory Demand Forecaster</span>
+    <span class="topbar-badge">ARIMA · Prophet · LSTM</span>
+  </header>
+
+  <div class="main">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <!-- Products -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Products</div>
+        <div class="product-list" id="product-list">
+          <div style="color:var(--text-muted);font-size:12px;padding:8px">Loading…</div>
+        </div>
+      </div>
+
+      <!-- Model -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Forecasting Model</div>
+        <select onchange="onModelChange(this.value)">
+          <option value="all">All Models (Compare)</option>
+          <option value="arima">ARIMA Only</option>
+          <option value="prophet">Prophet Only</option>
+          <option value="lstm">LSTM Only</option>
+        </select>
+      </div>
+
+      <!-- Forecast horizon -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Forecast Horizon</div>
+        <div class="slider-row">
+          <div class="slider-label-row">
+            <span style="color:var(--text-muted);font-size:12px">Days ahead</span>
+            <span class="slider-val" id="forecast-days-val">30d</span>
+          </div>
+          <input type="range" min="7" max="90" value="30"
+                 oninput="onForecastDaysChange(this.value)">
+        </div>
+      </div>
+
+      <!-- History window -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">History Window</div>
+        <div class="slider-row">
+          <div class="slider-label-row">
+            <span style="color:var(--text-muted);font-size:12px">Days shown</span>
+            <span class="slider-val" id="history-days-val">120d</span>
+          </div>
+          <input type="range" min="30" max="365" value="120"
+                 oninput="onHistoryDaysChange(this.value)">
+        </div>
+      </div>
+
+      <!-- Run -->
+      <div class="sidebar-section">
+        <button class="run-btn" onclick="runForecast()">
+        &#9654; Run Forecast
+        </button>
+      </div>
+
+      <!-- Info -->
+      <div style="padding:12px;background:var(--surface-2);border-radius:var(--radius);border:1px solid var(--border-muted)">
+        <div class="sidebar-label" style="margin-bottom:8px">About</div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6">
+          Synthetic sales data includes Indian festivals (Diwali, Holi, etc.),
+          weekly patterns, salary-cycle effects, and seasonal trends for 10 SMB products.
+        </p>
+      </div>
+
+    </aside>
+
+    <!-- Main content -->
+    <main class="content" id="content">
+      <div class="empty-state">
+        <div class="empty-icon">&#128230;</div>
+        <div class="empty-title">Select a product to begin</div>
+        <p>Choose a product from the sidebar, then click Run Forecast</p>
+      </div>
+    </main>
+
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
